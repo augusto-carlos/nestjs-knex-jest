@@ -16,18 +16,20 @@ export class UsersService {
     try {
       const { size = 10, page = 0 } = pagination;
 
-      return this.db
-        .select('*')
-        .from('users')
-        .limit(size)
-        .offset(page * size)
-        .orderBy('id', 'asc');
+      // return this.db
+      //   .select('*')
+      //   .from('users')
+      //   .limit(size)
+      //   .offset(page * size)
+      //   .orderBy('id', 'asc');
+
+      return this.db.raw('SELECT * FROM users LIMIT ? OFFSET ?', [size, page]);
     } catch (error) {
       return error;
     }
   }
 
-  async getUserById(id: number | string) {
+  async getUserById(id: string) {
     const user = await this.db
       .select('*')
       .from('users')

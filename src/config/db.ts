@@ -24,7 +24,7 @@ export class DBConfig {
       .then((exists) => {
         if (!exists) {
           return this.connection.schema.createTable('users', (table) => {
-            table.increments('id').primary();
+            table.uuid('id').primary().defaultTo(this.connection.fn.uuid());
             table.string('name');
             table.integer('age');
             table.timestamps({ defaultToNow: true });

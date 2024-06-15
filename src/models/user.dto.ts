@@ -1,11 +1,16 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsPositive, IsString } from 'class-validator';
 
 export class CreateUserDto {
-  @IsString()
+  @IsString({
+    message(validationArguments) {
+      return `${validationArguments.property}: ${validationArguments.value} (${typeof validationArguments.value}) - este campo deve ser do tipo string.`;
+    },
+  })
   name: string;
 
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Age should not be empty' })
+  @IsPositive()
   age: number;
 }
 
