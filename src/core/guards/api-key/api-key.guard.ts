@@ -19,12 +19,13 @@ export class ApiKeyGuard implements CanActivate {
       context.getHandler(),
     );
     console.log('REQ/RES LIFE CYCLE -> GUARDS');
-    console.log('x-api-key ->', this.configService.get('API_KEY'));
     // skip api key validation if it's a public endpoint
     if (isPublic) return true;
 
     const request = context.switchToHttp().getRequest();
     const apiKey = request.header('x-api-key');
+    console.log('x-api-key ->', this.configService.get('API_KEY'));
+    console.log('x-api-key provided ->', apiKey);
 
     const canActivate = this.configService.get('API_KEY') === apiKey;
     return canActivate;
